@@ -15,7 +15,7 @@ namespace NavigationBot.Dialogs
         private const string Topic2Option = "Topic 2";
         private const string Topic3Option = "Topic 3";
 
-        async Task IDialog<object>.StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
             context.Wait(this.MessageReceivedAsync);
         }
@@ -58,7 +58,7 @@ namespace NavigationBot.Dialogs
 
             if (message.Text == Topic1Option)
             {
-                await this.StartOverAsync(context, $"'{ message.Text }' isn't ready yet.");
+                context.Call(new Topic1Dialog(), this.Topic1DialogResumeAfterAsync);
             }
             else if (message.Text == Topic2Option)
             {
@@ -71,6 +71,20 @@ namespace NavigationBot.Dialogs
             else
             {
                 await this.StartOverAsync(context, $"I'm sorry, but I don't understand '{ message.Text }'.");
+            }
+        }
+
+        private async Task Topic1DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
+        {
+            try
+            {
+                var dialogResult = await result;
+
+                await this.ShowMenuAsync(context);
+            }
+            catch (Exception)
+            {
+                await this.ShowMenuAsync(context);
             }
         }
 
