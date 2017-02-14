@@ -62,11 +62,11 @@ namespace NavigationBot.Dialogs
             }
             else if (message.Text == Topic2Option)
             {
-                await this.StartOverAsync(context, $"'{ message.Text }' isn't ready yet.");
+                context.Call(new Topic2Dialog(), this.Topic2DialogResumeAfterAsync);
             }
             else if (message.Text == Topic3Option)
             {
-                await this.StartOverAsync(context, $"'{ message.Text }' isn't ready yet.");
+                context.Call(new Topic3Dialog(), this.Topic3DialogResumeAfterAsync);
             }
             else
             {
@@ -75,6 +75,34 @@ namespace NavigationBot.Dialogs
         }
 
         private async Task Topic1DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
+        {
+            try
+            {
+                var dialogResult = await result;
+
+                await this.ShowMenuAsync(context);
+            }
+            catch (Exception)
+            {
+                await this.ShowMenuAsync(context);
+            }
+        }
+
+        private async Task Topic2DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
+        {
+            try
+            {
+                var dialogResult = await result;
+
+                await this.ShowMenuAsync(context);
+            }
+            catch (Exception)
+            {
+                await this.ShowMenuAsync(context);
+            }
+        }
+
+        private async Task Topic3DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
         {
             try
             {
