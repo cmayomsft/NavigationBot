@@ -33,8 +33,6 @@ namespace NavigationBot.Dialogs
 
             await context.PostAsync("Choose an option below:");
 
-            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-
             var menuHeroCard = new HeroCard
             {
                 Buttons = new List<CardAction>
@@ -128,7 +126,5 @@ namespace NavigationBot.Dialogs
             await context.PostAsync(message);
             await this.ShowMenuAsync(context);
         }
-
-
     }
 }
