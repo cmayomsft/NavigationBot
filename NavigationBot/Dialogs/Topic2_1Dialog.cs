@@ -62,7 +62,7 @@ namespace NavigationBot.Dialogs
 
                 if (choice == more)
                 {
-                    PromptDialog.Choice(context, FourthPromptResumeAfter, new[] { "Menu", "Topic 1" }, "Topic 2.1 Dialog is done. What do you want to do next?...",
+                    PromptDialog.Choice(context, FourthPromptResumeAfter, new[] { "Menu", "Topic 2" }, "Topic 2.1 Dialog is done. What do you want to do next?...",
                         "I'm sorry, I don't understand. Please try again.");
                 }
             }

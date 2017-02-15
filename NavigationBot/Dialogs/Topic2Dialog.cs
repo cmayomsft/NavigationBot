@@ -68,7 +68,7 @@ namespace NavigationBot.Dialogs
             }
             else if (message.Text == Topic2_3Option)
             {
-                context.Call(new Topic1_3Dialog(), Topic2_3DialogResumeAfterAsync);
+                context.Call(new Topic2_3Dialog(), Topic2_3DialogResumeAfterAsync);
             }
             else
             {
