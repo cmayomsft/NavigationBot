@@ -11,6 +11,7 @@ namespace NavigationBot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        private const string Menu = "Menu";
         private const string Topic1Option = "Topic 1";
         private const string Topic2Option = "Topic 2";
         private const string Topic3Option = "Topic 3";
@@ -24,7 +25,30 @@ namespace NavigationBot.Dialogs
         {
             var message = await result;
 
-            await this.ShowMenuAsync(context);
+            if (message != null && !string.IsNullOrWhiteSpace(message.Text))
+            {
+                if (message.Text.Equals(Menu, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    await this.ShowMenuAsync(context);
+                }
+                else if (message.Text.Equals(Topic1Option, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    context.Call(new Topic1Dialog(), this.Topic1DialogResumeAfterAsync);
+                }
+                else if (message.Text.Equals(Topic2Option, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    context.Call(new Topic2Dialog(), this.Topic2DialogResumeAfterAsync);
+                }
+                else if (message.Text.Equals(Topic3Option, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    context.Call(new Topic3Dialog(), this.Topic3DialogResumeAfterAsync);
+                }
+                else
+                {
+                    // Needed for now, will be replaced with welcome message feature.
+                    await this.ShowMenuAsync(context);
+                }
+            }
         }
         
         private async Task ShowMenuAsync(IDialogContext context)
@@ -54,22 +78,10 @@ namespace NavigationBot.Dialogs
         {
             var message = await result;
 
-            if (message.Text == Topic1Option)
-            {
-                context.Call(new Topic1Dialog(), this.Topic1DialogResumeAfterAsync);
-            }
-            else if (message.Text == Topic2Option)
-            {
-                context.Call(new Topic2Dialog(), this.Topic2DialogResumeAfterAsync);
-            }
-            else if (message.Text == Topic3Option)
-            {
-                context.Call(new Topic3Dialog(), this.Topic3DialogResumeAfterAsync);
-            }
-            else
-            {
-                await this.StartOverAsync(context, $"I'm sorry, but I don't understand '{ message.Text }'.");
-            }
+            // If we got here, it's because something other than a navigation command happened, which isn't possible on RootDialog.
+            await context.PostAsync($"I'm sorry, I don't understand '{ message.Text }'.");
+
+            await this.ShowMenuAsync(context);
         }
 
         private async Task Topic1DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
