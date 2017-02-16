@@ -35,6 +35,15 @@ namespace NavigationBot.Dialogs
             context.Wait(this.ShowMenuResumeAfterAsync);
         }
 
+        private async Task ShowMenuResumeAfterAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var message = await result;
+
+            // Everything in dialog is navigation, so anything returned here not picked up by global message handler is not understood.
+            // Should implement retries here.
+            await this.StartOverAsync(context, $"I'm sorry, I don't understand '{ message.Text }'.");
+        }
+
         private Attachment CreateHeroCardAttachment(string title)
         {
             var heroCard = new HeroCard
@@ -54,42 +63,6 @@ namespace NavigationBot.Dialogs
             return heroCard.ToAttachment();
         }
 
-        private async Task ShowMenuResumeAfterAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            var message = await result;
-
-            if (message.Text == Topic2_1Option)
-            {
-                context.Call(new Topic2_1Dialog(), Topic2_1DialogResumeAfterAsync);
-            }
-            else if (message.Text == Topic2_2Option)
-            {
-                context.Call(new Topic2_2Dialog(), Topic2_2DialogResumeAfterAsync);
-            }
-            else if (message.Text == Topic2_3Option)
-            {
-                context.Call(new Topic2_3Dialog(), Topic2_3DialogResumeAfterAsync);
-            }
-            else
-            {
-                await this.StartOverAsync(context, $"I'm sorry, I don't understand '{ message.Text }'.");
-            }
-        }
-
-        private async Task Topic2_3DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
-        {
-            await this.ShowMenuAsync(context);
-        }
-
-        private async Task Topic2_2DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
-        {
-            await this.ShowMenuAsync(context);
-        }
-
-        private async Task Topic2_1DialogResumeAfterAsync(IDialogContext context, IAwaitable<object> result)
-        {
-            await ShowMenuAsync(context);
-        }
 
         private async Task StartOverAsync(IDialogContext context, string text)
         {

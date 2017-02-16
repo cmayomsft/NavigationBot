@@ -26,15 +26,31 @@ namespace NavigationBot.Scorables
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
                 if (message.Text.Equals("Menu", StringComparison.InvariantCultureIgnoreCase) ||
+
                     message.Text.Equals("Topic 1", StringComparison.InvariantCultureIgnoreCase) ||
+
+                    message.Text.Equals("Topic 1.1", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 1.2", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 1.3", StringComparison.InvariantCultureIgnoreCase) ||
+
                     message.Text.Equals("Topic 2", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 3", StringComparison.InvariantCultureIgnoreCase))
+
+                    message.Text.Equals("Topic 2.1", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 2.2", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 2.3", StringComparison.InvariantCultureIgnoreCase) ||
+
+                    message.Text.Equals("Topic 3", StringComparison.InvariantCultureIgnoreCase) ||
+
+                    message.Text.Equals("Topic 3.1", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 3.2", StringComparison.InvariantCultureIgnoreCase) ||
+                    message.Text.Equals("Topic 3.3", StringComparison.InvariantCultureIgnoreCase))
                 {
                     return message.Text;
                 }
             }
 
             return null;
+
         }
 
         protected override bool HasScore(IActivity item, string state)
