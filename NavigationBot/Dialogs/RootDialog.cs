@@ -11,27 +11,24 @@ namespace NavigationBot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        delegate void NavigationDelegate(IDialogContext context, IMessageActivity message);
+
         // Will centralize navigation around array of commands, dialogs for each command.
-        //  public static readonly string[] NavigationCommands = { "Menu" };
-
-        private const string Menu = "Menu";
-        private const string Topic1Option = "Topic 1";
-
-        private const string Topic1_1Option = "Topic 1.1";
-        private const string Topic1_2Option = "Topic 1.2";
-        private const string Topic1_3Option = "Topic 1.3";
-
-        private const string Topic2Option = "Topic 2";
-
-        private const string Topic2_1Option = "Topic 2.1";
-        private const string Topic2_2Option = "Topic 2.2";
-        private const string Topic2_3Option = "Topic 2.3";
-
-        private const string Topic3Option = "Topic 3";
-
-        private const string Topic3_1Option = "Topic 3.1";
-        private const string Topic3_2Option = "Topic 3.2";
-        private const string Topic3_3Option = "Topic 3.3";
+        public static readonly Dictionary<string, NavigationDelegate> NavigationCommands = new Dictionary<string, NavigationDelegate> {
+            { "Menu", (c, m) => { ShowMenuAsync(c); } },
+            /*{ "Topic 1", "" },
+            { "Topic 1.1", "" },
+            { "Topic 1.2", "" },
+            { "Topic 1.3", "" },
+            { "Topic 2", "" },
+            { "Topic 2.1", "" },
+            { "Topic 2.2", "" },
+            { "Topic 2.3", "" },
+            { "Topic 3", "" },
+            { "Topic 3.1", "" },
+            { "Topic 3.2", "" },
+            { "Topic 3.3", "" },*/
+        };
 
         public async Task StartAsync(IDialogContext context)
         {
