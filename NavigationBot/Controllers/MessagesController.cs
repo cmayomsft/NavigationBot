@@ -27,7 +27,7 @@ namespace NavigationBot
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, CreateDecoratedRootDialog);
+                await Conversation.SendAsync(activity, () => new RootDialog());
             }
             else
             {
@@ -35,24 +35,6 @@ namespace NavigationBot
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
-        }
-
-        private IDialog<object> CreateDecoratedRootDialog()
-        {
-            var root = new RootDialog();
-
-            var scorable = Actions
-                .Bind(async (IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
-                {
-                    stack.Reset();
-
-                    var newRoot = new RootDialog();
-                    await stack.Forward(newRoot, null, activity, token);
-                })
-                .When(new Regex(@"(?i)menu")) // Tried wildcard RegEx, @".*", to see if the issue was with matching, still didn't work.
-                .Normalize();
-
-            return root.WithScorable(scorable);
         }
 
         private Activity HandleSystemMessage(Activity message)
