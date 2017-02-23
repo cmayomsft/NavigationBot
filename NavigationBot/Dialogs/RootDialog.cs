@@ -19,26 +19,7 @@ namespace NavigationBot.Dialogs
     {
         public RootDialog()
         {
-            var scorable = Actions
-                .Bind(async (string expression, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
-                {
-                    var dialog = new Topic1Dialog();
-                    stack.Reset();
-                    await stack.Forward(dialog, null, null, token);
-                })
-                .When(new Regex(@"(?gi)menu")) // Tried wildcard RegEx, @".*", to see if the issue was with matching, still didn't work.
-                .Normalize();
 
-            this.WithScorable(scorable);
-
-            using (var container = Build(Options.ResolveDialogFromContainer))
-            {
-                var builder = new ContainerBuilder();
-                builder
-                    .RegisterInstance(this)
-                    .As<IDialog<object>>();
-                builder.Update(container);
-            }
         }
         //delegate void NavigationDelegate(IDialogContext context, IMessageActivity message);
 

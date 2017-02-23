@@ -25,7 +25,7 @@ namespace NavigationBot.Scorables
 
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
-                if (message.Text.Equals("Menu", StringComparison.InvariantCultureIgnoreCase) ||
+                if (message.Text.Equals("Menu", StringComparison.InvariantCultureIgnoreCase)) /*||
 
                     message.Text.Equals("Topic 1", StringComparison.InvariantCultureIgnoreCase) ||
 
@@ -43,7 +43,7 @@ namespace NavigationBot.Scorables
 
                     message.Text.Equals("Topic 3.1", StringComparison.InvariantCultureIgnoreCase) ||
                     message.Text.Equals("Topic 3.2", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 3.3", StringComparison.InvariantCultureIgnoreCase))
+                    message.Text.Equals("Topic 3.3", StringComparison.InvariantCultureIgnoreCase))*/
                 {
                     return message.Text;
                 }
@@ -65,8 +65,6 @@ namespace NavigationBot.Scorables
 
         protected override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
-
-
             var message = item as IMessageActivity;
 
             if (message != null)
