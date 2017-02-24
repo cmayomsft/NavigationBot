@@ -21,13 +21,13 @@ namespace NavigationBot
 
         private void RegisterBotModules()
         {
-            //var builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
 
-            //builder.RegisterModule(new ReflectionSurrogateModule());
+            builder.RegisterModule(new ReflectionSurrogateModule());
 
-            //builder.RegisterModule<NavigationBotModule>();
+            builder.RegisterModule<NavigationBotModule>();
 
-            //builder.Update(Conversation.Container);
+            builder.Update(Conversation.Container);
         }
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using NavigationBot.Dialogs;
+using System.Collections.Generic;
+using NavigationBot.Properties;
+using System.Linq;
 
 namespace NavigationBot.Scorables
 {
@@ -17,7 +20,7 @@ namespace NavigationBot.Scorables
         public NavigationScorable(IDialogStack stack)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
-        }
+        } 
 
         protected override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
         {
@@ -25,32 +28,13 @@ namespace NavigationBot.Scorables
 
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
-                if (message.Text.Equals("Menu", StringComparison.InvariantCultureIgnoreCase)) /*||
-
-                    message.Text.Equals("Topic 1", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    message.Text.Equals("Topic 1.1", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 1.2", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 1.3", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    message.Text.Equals("Topic 2", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    message.Text.Equals("Topic 2.1", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 2.2", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 2.3", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    message.Text.Equals("Topic 3", StringComparison.InvariantCultureIgnoreCase) ||
-
-                    message.Text.Equals("Topic 3.1", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 3.2", StringComparison.InvariantCultureIgnoreCase) ||
-                    message.Text.Equals("Topic 3.3", StringComparison.InvariantCultureIgnoreCase))*/
+                if (message.Text.Equals(Resources.NavigationMenu_Option, StringComparison.InvariantCultureIgnoreCase))
                 {
                     return message.Text;
                 }
             }
 
             return null;
-
         }
 
         protected override bool HasScore(IActivity item, string state)
@@ -69,13 +53,12 @@ namespace NavigationBot.Scorables
 
             if (message != null)
             {
-                // Reset stack back to just including RootDialog.
+                // Reset stack back to just RootDialog.
                 this.stack.Reset();
 
-                // Forward navigation message/command to Root Dialog for processing (show menu, show dialog, etc.).
-                var root = new RootDialog();
+                var dialog = new NavigationMenuDialog();
 
-                await this.stack.Forward(root, null, message, token);
+                this.stack.Call(dialog, null);
             }
         }
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)

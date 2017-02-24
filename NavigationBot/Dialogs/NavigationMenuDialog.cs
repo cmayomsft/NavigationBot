@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+using NavigationBot.Properties;
 
 namespace NavigationBot.Dialogs
 {
     [Serializable]
     public class NavigationMenuDialog : IDialog<object>
     {
-        private const string Topic1_1Option = "Topic 1.1";
-        private const string Topic1_2Option = "Topic 1.2";
-        private const string Topic1_3Option = "Topic 1.3";
-
         public async Task StartAsync(IDialogContext context)
         {
             await this.ShowMenuAsync(context);
@@ -21,11 +19,18 @@ namespace NavigationBot.Dialogs
         {
             var reply = context.MakeMessage();
 
-            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+            var menuHeroCard = new HeroCard
+            {
+                Buttons = new List<CardAction>
+                {
+                    new CardAction(ActionTypes.ImBack, Resources.Topic1_Option, value: Resources.Topic1_Option),
+                    new CardAction(ActionTypes.ImBack, Resources.Topic2_Option, value: Resources.Topic2_Option),
+                    new CardAction(ActionTypes.ImBack, Resources.Topic3_Option, value: Resources.Topic3_Option)
+                }
+            };
+            reply.Attachments.Add(menuHeroCard.ToAttachment());
 
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_1Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_2Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_3Option));
+            await context.PostAsync("Choose an option below:");
 
             await context.PostAsync(reply);
 
@@ -36,28 +41,8 @@ namespace NavigationBot.Dialogs
         {
             var message = await result;
 
-            // Everything in dialog is navigation, so anything returned here not picked up by global message handler is not understood.
-            // Should implement retries here.
+            // If we got here, it's because something other than a navigation command happened, and this dialog only supports navigation commands.
             await this.StartOverAsync(context, $"I'm sorry, I don't understand '{ message.Text }'.");
-        }
-
-        private Attachment CreateHeroCardAttachment(string title)
-        {
-            var heroCard = new HeroCard
-            {
-                Title = title,
-                Text = $"To learn more about { title }...",
-
-                Images = new List<CardImage>() {
-                        new CardImage($"https://placeholdit.imgix.net/~text?txtsize=28&txt={ HttpContext.Current.Server.UrlEncode(title) }&w=320&h=160") },
-
-                Buttons = new List<CardAction>
-                {
-                    new CardAction(ActionTypes.ImBack, title, value: title)
-                }
-            };
-
-            return heroCard.ToAttachment();
         }
 
 
