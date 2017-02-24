@@ -18,15 +18,19 @@ namespace NavigationBot.Scorables
     public class NavigationScorable : ScorableBase<IActivity, string, double>
     {
         private readonly IDialogStack stack;
-
-        private readonly Dictionary<string, Action> navigationCommands;
         private Action currentNavAction;
+
+        //private readonly Dictionary<string, Action> navigationCommands;
+        public Dictionary<string, Action> NavigationCommands { get;  }
 
         public NavigationScorable(IDialogStack stack)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
+            currentNavAction = null;
 
-            navigationCommands = new Dictionary<string, Action>()
+            NavigationCommands = new Dictionary<string, Action>();
+
+            /* navigationCommands = new Dictionary<string, Action>()
             {
                 { Resources.NavigationMenu_Option, () => 
                     {
@@ -148,9 +152,7 @@ namespace NavigationBot.Scorables
                         this.stack.Call(dialog, null);
                     }
                 },
-            };
-
-            currentNavAction = null;
+            }; */
         } 
 
         protected override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
@@ -159,7 +161,7 @@ namespace NavigationBot.Scorables
 
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
-                var commands = from command in navigationCommands
+                var commands = from command in NavigationCommands
                                  where message.Text.Equals(command.Key, StringComparison.InvariantCultureIgnoreCase)
                                  select command.Value;
 

@@ -13,6 +13,8 @@ namespace NavigationBot
         {
             base.Load(builder);
 
+            //What is c? Can I use it to add all commands here, in one place?
+
             builder
                 .Register(c => new NavigationScorable(c.Resolve<IDialogStack>()))
                 .As<IScorable<IActivity, double>>()
