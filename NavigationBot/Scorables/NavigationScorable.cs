@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using NavigationBot.Dialogs;
-using System.Collections.Generic;
 using NavigationBot.Properties;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Collections.Generic;
 using System.Linq;
+
+#pragma warning disable 1998
 
 namespace NavigationBot.Scorables
 {
@@ -17,9 +19,138 @@ namespace NavigationBot.Scorables
     {
         private readonly IDialogStack stack;
 
+        private readonly Dictionary<string, Action> navigationCommands;
+        private Action currentNavAction;
+
         public NavigationScorable(IDialogStack stack)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
+
+            navigationCommands = new Dictionary<string, Action>()
+            {
+                { Resources.NavigationMenu_Option, () => 
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new NavigationMenuDialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+
+                { Resources.Topic1_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic1Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic1_1_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic1_1Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic1_2_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic1_2Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic1_3_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic1_3Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+
+                { Resources.Topic2_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic2Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic2_1_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic2_1Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic2_2_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic2_2Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic2_3_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic2_3Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+
+                { Resources.Topic3_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic3Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic3_1_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic3_1Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic3_2_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic3_2Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+                { Resources.Topic3_3_Option, () =>
+                    {
+                        this.stack.Reset();
+
+                        var dialog = new Topic3_3Dialog();
+
+                        this.stack.Call(dialog, null);
+                    }
+                },
+            };
+
+            currentNavAction = null;
         } 
 
         protected override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
@@ -28,12 +159,18 @@ namespace NavigationBot.Scorables
 
             if (message != null && !string.IsNullOrWhiteSpace(message.Text))
             {
-                if (message.Text.Equals(Resources.NavigationMenu_Option, StringComparison.InvariantCultureIgnoreCase))
+                var commands = from command in navigationCommands
+                                 where message.Text.Equals(command.Key, StringComparison.InvariantCultureIgnoreCase)
+                                 select command.Value;
+
+                if (commands.Any())
                 {
+                    currentNavAction = commands.First();
                     return message.Text;
                 }
             }
 
+            currentNavAction = null;
             return null;
         }
 
@@ -51,14 +188,9 @@ namespace NavigationBot.Scorables
         {
             var message = item as IMessageActivity;
 
-            if (message != null)
+            if (message != null && currentNavAction != null)
             {
-                // Reset stack back to just RootDialog.
-                this.stack.Reset();
-
-                var dialog = new NavigationMenuDialog();
-
-                this.stack.Call(dialog, null);
+                currentNavAction();
             }
         }
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)

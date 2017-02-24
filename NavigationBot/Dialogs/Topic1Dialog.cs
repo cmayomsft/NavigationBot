@@ -5,16 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
+using NavigationBot.Properties;
 
 namespace NavigationBot.Dialogs
 {
     [Serializable]
     public class Topic1Dialog : IDialog<object>
     {
-        private const string Topic1_1Option = "Topic 1.1";
-        private const string Topic1_2Option = "Topic 1.2";
-        private const string Topic1_3Option = "Topic 1.3";
-
         public async Task StartAsync(IDialogContext context)
         {
             await this.ShowMenuAsync(context);
@@ -26,9 +23,9 @@ namespace NavigationBot.Dialogs
 
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_1Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_2Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic1_3Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic1_1_Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic1_2_Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic1_3_Option));
 
             await context.PostAsync(reply);
 
@@ -39,8 +36,8 @@ namespace NavigationBot.Dialogs
         {
             var message = await result;
 
-            // Everything in dialog is navigation, so anything returned here not picked up by global message handler is not understood.
-                // Should implement retries here.
+            // This is a navigation dialog, every choice should be a global command, so if we get here the user responded with something other than
+            //  one of the navigation options.
             await this.StartOverAsync(context, $"I'm sorry, I don't understand '{ message.Text }'.");
         }
 

@@ -5,16 +5,13 @@ using System.Linq;
 using System.Web;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
+using NavigationBot.Properties;
 
 namespace NavigationBot.Dialogs
 {
     [Serializable]
     public class Topic2Dialog : IDialog<object>
     {
-        private const string Topic2_1Option = "Topic 2.1";
-        private const string Topic2_2Option = "Topic 2.2";
-        private const string Topic2_3Option = "Topic 2.3";
-
         public async Task StartAsync(IDialogContext context)
         {
             await this.ShowMenuAsync(context);
@@ -26,9 +23,9 @@ namespace NavigationBot.Dialogs
 
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
 
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic2_1Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic2_2Option));
-            reply.Attachments.Add(CreateHeroCardAttachment(Topic2_3Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic2_1_Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic2_2_Option));
+            reply.Attachments.Add(CreateHeroCardAttachment(Resources.Topic2_3_Option));
 
             await context.PostAsync(reply);
 

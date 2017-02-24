@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using Autofac;
 using Chronic;
 
+#pragma warning disable 1998
+
 namespace NavigationBot.Dialogs
 {
     [Serializable]
@@ -49,19 +51,5 @@ namespace NavigationBot.Dialogs
                 await this.ShowNavigationMenuAsync(context);
             }
         }
-
-        //TODO: Remove.
-        /*private async Task StartOverAsync(IDialogContext context, string text)
-        {
-            var message = context.MakeMessage();
-            message.Text = text;
-            await this.StartOverAsync(context, message);
-        }
-
-        private async Task StartOverAsync(IDialogContext context, IMessageActivity message)
-        {
-            await context.PostAsync(message);
-            await this.ShowMenuAsync(context);
-        }*/
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Threading.Tasks;
+using NavigationBot.Properties;
+
+#pragma warning disable 1998
 
 namespace NavigationBot.Dialogs
 {
@@ -62,7 +62,7 @@ namespace NavigationBot.Dialogs
 
                 if (choice == more)
                 {
-                    PromptDialog.Choice(context, FourthPromptResumeAfter, new[] { "Menu", "Topic 1" }, "Topic 1.1 Dialog is done. What do you want to do next?...",
+                    PromptDialog.Choice(context, FourthPromptResumeAfter, new[] { Resources.NavigationMenu_Option, Resources.Topic1_Option }, "Topic 1.1 Dialog is done. What do you want to do next?...",
                         "I'm sorry, I don't understand. Please try again.");
                 }
             }
@@ -78,7 +78,7 @@ namespace NavigationBot.Dialogs
             {
                 var choice = await result;
 
-                if (choice == "Menu" || choice == "Topic 1")
+                if (choice == Resources.NavigationMenu_Option || choice == Resources.Topic1_Option)
                 {
                     context.Done<object>(null);
                 }

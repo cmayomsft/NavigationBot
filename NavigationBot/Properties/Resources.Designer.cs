@@ -70,6 +70,33 @@ namespace NavigationBot.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Topic 1.1.
+        /// </summary>
+        internal static string Topic1_1_Option {
+            get {
+                return ResourceManager.GetString("Topic1_1_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 1.2.
+        /// </summary>
+        internal static string Topic1_2_Option {
+            get {
+                return ResourceManager.GetString("Topic1_2_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 1.3.
+        /// </summary>
+        internal static string Topic1_3_Option {
+            get {
+                return ResourceManager.GetString("Topic1_3_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Topic 1.
         /// </summary>
         internal static string Topic1_Option {
@@ -79,11 +106,65 @@ namespace NavigationBot.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Topic 2.1.
+        /// </summary>
+        internal static string Topic2_1_Option {
+            get {
+                return ResourceManager.GetString("Topic2_1_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 2.2.
+        /// </summary>
+        internal static string Topic2_2_Option {
+            get {
+                return ResourceManager.GetString("Topic2_2_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 2.3.
+        /// </summary>
+        internal static string Topic2_3_Option {
+            get {
+                return ResourceManager.GetString("Topic2_3_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Topic 2.
         /// </summary>
         internal static string Topic2_Option {
             get {
                 return ResourceManager.GetString("Topic2_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 3.1.
+        /// </summary>
+        internal static string Topic3_1_Option {
+            get {
+                return ResourceManager.GetString("Topic3_1_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 3.2.
+        /// </summary>
+        internal static string Topic3_2_Option {
+            get {
+                return ResourceManager.GetString("Topic3_2_Option", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Topic 3.3.
+        /// </summary>
+        internal static string Topic3_3_Option {
+            get {
+                return ResourceManager.GetString("Topic3_3_Option", resourceCulture);
             }
         }
         
