@@ -16,32 +16,36 @@ namespace NavigationBot
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            // This does not resolve, throws an exception.
 
-            var stack = Conversation.Container.Resolve<IDialogStack>();
-            var navigationScorable = new NavigationScorable(stack);
+            builder
+                .Register(c => BuildNavigationScorable(c))
+                .As<IScorable<IActivity, double>>()
+                .InstancePerLifetimeScope();
+        }
 
-            navigationScorable.NavigationCommands.Add(Resources.NavigationMenu_Option, () =>
-                {
-                    stack.Reset();
+        private NavigationScorable BuildNavigationScorable(IComponentContext c)
+        {
+            var stack = c.Resolve<IDialogStack>();
+            var nav = new NavigationScorable(c.Resolve<IDialogStack>());
 
-                    var dialog = new NavigationMenuDialog();
+            nav.NavigationCommands.Add(Resources.NavigationMenu_Option, () =>
+            {
+                stack.Reset();
 
-                    stack.Call(dialog, null);
-                });
+                var dialog = new NavigationMenuDialog();
 
+                stack.Call(dialog, null);
+            });
 
-            /*},
+            nav.NavigationCommands.Add(Resources.Topic1_Option, () =>
+            {
+                stack.Reset();
 
-            { Resources.Topic1_Option, () =>
-                {
-                    this.stack.Reset();
+                var dialog = new Topic1Dialog();
 
-                    var dialog = new Topic1Dialog();
+                stack.Call(dialog, null);
+            });
 
-                    this.stack.Call(dialog, null);
-                }
-            },
             { Resources.Topic1_1_Option, () =>
                 {
                     this.stack.Reset();
@@ -144,11 +148,7 @@ namespace NavigationBot
                 }
             },
         }; */
-
-            builder
-                .Register(c => navigationScorable)
-                .As<IScorable<IActivity, double>>()
-                .InstancePerLifetimeScope();
+            return nav;
         }
     }
 }

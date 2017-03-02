@@ -5,8 +5,6 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables.Internals;
-using NavigationBot.Dialogs;
-using NavigationBot.Properties;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +18,12 @@ namespace NavigationBot.Scorables
         private readonly IDialogStack stack;
         private Action currentNavAction;
 
-        //private readonly Dictionary<string, Action> navigationCommands;
         public Dictionary<string, Action> NavigationCommands { get;  }
 
         public NavigationScorable(IDialogStack stack)
         {
             SetField.NotNull(out this.stack, nameof(stack), stack);
+
             currentNavAction = null;
             NavigationCommands = new Dictionary<string, Action>();
         } 
