@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Builder.Dialogs;
@@ -15,16 +13,12 @@ namespace NavigationBot.Scorables
 {
     public class NavigationScorable : ScorableBase<IActivity, string, double>
     {
-        private readonly IDialogStack stack;
-        private Action currentNavAction;
+        private Action currentNavAction = null;
 
         public Dictionary<string, Action> NavigationCommands { get;  }
 
-        public NavigationScorable(IDialogStack stack)
+        public NavigationScorable()
         {
-            SetField.NotNull(out this.stack, nameof(stack), stack);
-
-            currentNavAction = null;
             NavigationCommands = new Dictionary<string, Action>();
         } 
 
